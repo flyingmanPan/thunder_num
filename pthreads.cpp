@@ -39,7 +39,7 @@ void *count_out(void *time)
 				}
 				//cout<<front<< "   "<<back<< "        "<<middle<<endl;
 				if((back+front)*(back+front)==num)
-					printf("%ld\n",num);
+					printf("%ld -> %ld+%ld\n",num,front,back);
 			}
 		}
 	}
