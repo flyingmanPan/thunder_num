@@ -48,7 +48,7 @@ void *count_out(void *time)
 	{
 		longest_time=end;
 	}
-	printf("Time:%ld\n",longest_time/1000);
+	printf("millis:%ld\n",longest_time/10000);
 	pthread_exit(NULL);
 }
 
