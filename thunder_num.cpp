@@ -10,7 +10,7 @@ int main()
 	struct timeval start, end;
     gettimeofday( &start, NULL );
 	uint64_t product1,product2,product3,num=1000;
-	for(;num<999999;num++)
+	for(;num<99999999;num++)
 	{
 		if(count(num)%2==0)
 		{
