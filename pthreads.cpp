@@ -20,7 +20,7 @@ void *count_out(void *time)
 	begin_num+=MAX/NUM_THREADS;
 	for(;num<end_num;num++)
 	{
-		if(count(num)%2==0)
+		//if(count(num)%2==0)
 		{
 			uint64_t data=num,front=0,back=0,count1=count(num);
 			int middle=count1-1;
