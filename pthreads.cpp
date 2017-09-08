@@ -1,23 +1,23 @@
 #include <iostream>
 #include <cstdlib>
 #include <pthread.h>
-#include<cmath>
-#include<sys/time.h>
+#include <cmath>
+#include <ctime>
 using namespace std;
 
 #define NUM_THREADS 10
+#define MAX 100000000
 uint64_t begin_num=0;
 uint64_t timeuse=0;
-struct timeval start, end;
 int count(int);
-void *count_out(void *threadid)
+time_t longest_time=0;
+void *count_out(void *time)
 {
-	long tid;
-	tid = (long)threadid;
-	//printf("Thread ID, %ld\n",tid);
+	//time_t t = (time_t)time;
+	//printf("Time, %ld\n",t);
 	uint64_t product1,product2,product3,
-	num=begin_num,end_num=begin_num+100000000/NUM_THREADS;
-	begin_num+=100000000/NUM_THREADS;
+	num=begin_num,end_num=begin_num+MAX/NUM_THREADS;
+	begin_num+=MAX/NUM_THREADS;
 	for(;num<end_num;num++)
 	{
 		if(count(num)%2==0)
@@ -43,21 +43,19 @@ void *count_out(void *threadid)
 			}
 		}
 	}
-	gettimeofday( &end, NULL );
-	
-	uint64_t _timeuse = 1000000 * ( end.tv_sec - start.tv_sec ) + 
-	end.tv_usec -start.tv_usec;
-	if(_timeuse>timeuse)
+	time_t end=clock();
+	if(end>longest_time)
 	{
-		timeuse=_timeuse;
-		printf("time: %d us\n", timeuse);
+		longest_time=end;
 	}
+	printf("Time:%ld\n",longest_time/1000);
 	pthread_exit(NULL);
 }
 
 int main ()
 {
-    gettimeofday( &start, NULL );
+	clock_t start,end;
+	start=clock();
 	pthread_t threads[NUM_THREADS];
 	int rc;
 	int i;
@@ -67,7 +65,6 @@ int main ()
 		rc = pthread_create(&threads[i], NULL, count_out, (void *)i);
 	}
 	pthread_exit(NULL);
-	
 }
 int count(int num)
 {
