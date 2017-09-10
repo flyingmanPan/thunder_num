@@ -9,44 +9,26 @@ int main()
 	//cin>>num;
 	struct timeval start, end;
     gettimeofday( &start, NULL );
-	uint64_t product1,product2,product3,num=1000;
-	for(;num<99999999;num++)
+	
+	uint64_t product1,product2,product3,num1=1;
+	for(;num1<100000;num1++)
 	{
-		if(count(num)%2==0)
+		uint64_t num=num1*num1;
+		uint64_t i=1;
+		while(1)
 		{
-			uint64_t data=num,front=0,back=0,count1=count(num);
-			int middle=count1-1;
-			for(;middle>0;middle--)
-			{
-				data=num,front=0,back=0;
-				for(int i=0;i<middle;i++)
-				{
-					back+=data%10*pow(10,i);
-					data/=10;
-				}
-				for(int i=0;i<count1-middle;i++)
-				{
-					front+=data%10*pow(10,i);
-					data/=10;
-				}
-				//cout<<front<< "   "<<back<< "        "<<middle<<endl;
-				if((back+front)*(back+front)==num)
-					printf("%ld\n",num);
-			}
+			uint64_t temp=pow(10,i);
+			if(num/temp<=1)
+				break;
+			if(pow(num%temp+num/temp,2)==num)
+				printf("%ld\n",num);
+			i++;
 		}
+		
 	}
+	
 	gettimeofday( &end, NULL );
     int timeuse = 1000000 * ( end.tv_sec - start.tv_sec ) + end.tv_usec -start.tv_usec;
     printf("time: %d us\n", timeuse);
     return 0;
-}
-int count(int num)
-{
-	int digit=1;
-	while(!(num>=0&&num<=9))
-	{
-		digit++;
-		num/=10;
-	}
-	return digit;
 }

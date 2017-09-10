@@ -6,7 +6,7 @@
 using namespace std;
 
 #define NUM_THREADS 10
-#define MAX 100000000
+#define MAX 100000
 uint64_t begin_num=0;
 uint64_t timeuse=0;
 int count(int);
@@ -20,27 +20,15 @@ void *count_out(void *time)
 	begin_num+=MAX/NUM_THREADS;
 	for(;num<end_num;num++)
 	{
-		//if(count(num)%2==0)
+		uint64_t i=1,num1=num*num;
+		while(1)
 		{
-			uint64_t data=num,front=0,back=0,count1=count(num);
-			int middle=count1-1;
-			for(;middle>0;middle--)
-			{
-				data=num,front=0,back=0;
-				for(int i=0;i<middle;i++)
-				{
-					back+=data%10*pow(10,i);
-					data/=10;
-				}
-				for(int i=0;i<count1-middle;i++)
-				{
-					front+=data%10*pow(10,i);
-					data/=10;
-				}
-				//cout<<front<< "   "<<back<< "        "<<middle<<endl;
-				if((back+front)*(back+front)==num)
-					printf("%ld -> %ld+%ld\n",num,front,back);
-			}
+			uint64_t temp=pow(10,i);
+			if(num1/temp<=1)
+				break;
+			if(pow(num1%temp+num1/temp,2)==num1)
+				printf("%ld\n",num1);
+			i++;
 		}
 	}
 	time_t end=clock();
@@ -65,14 +53,4 @@ int main ()
 		rc = pthread_create(&threads[i], NULL, count_out, (void *)i);
 	}
 	pthread_exit(NULL);
-}
-int count(int num)
-{
-	int digit=1;
-	while(!(num>=0&&num<=9))
-	{
-		digit++;
-		num/=10;
-	}
-	return digit;
 }
